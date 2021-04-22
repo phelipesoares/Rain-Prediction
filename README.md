@@ -15,21 +15,21 @@ In resume, this project is split into this parts:
 # Documentation
 
 # API:
-This API bring the climate info about some region passed in the parameters. For example, if you pass "London", then you receive London Climate info, as Temp, Wind direction, kpm wind, sky condition, etc. The API refresh this info every 15 minutes, thus you have 4 registers per hour about the region you want.
+This API bring the climatasddsadasdase info about some region passed in the parameters. For example, if you pass "London", then you receive London Climate info, as Temp, Wind direction, kpm wind, sky condition, etc. The API refresh this info every 15 minutes, thus you have 4 registers per hour about the region you want.
 
 # Starting the project:
 
 At the beggining, we don't have any information about any region climate, so we need to collect and store the data in some database. To solve it, we create a VM Instance in Google Cloud Platform, where we gonna run our scripts and a database in Query, where we gonna store the data. Thus, at this moment, every 15 minutes my scripts runs, collect the data from API, transform and insert into BigQuery table. At some point, we gonna have thousands of registers then we be able to create our predictions models.
 
-# Where we are and what we're doing:
+# Where we are and what we're doing:asdasdasdas
   # 22/04/2021
   This is the first day of collecting data from the API. We're collecting data from a city in Brazil, Carapicuiba, every 15 minute and storing into a BigQuery Table.
   
   # Next days:
-  1) Include another cities, as Barueri, Carapicuiba and Sao Paulo, because their next to each other.
-  2) Include a automation that sends a signal if the script doesn't finish the job, so we can know if the table has been updated.
+  1) Include another cities, as Barasdasdasdsaueri, Carapicuiba and Sao Paulo, because their next to each other.
+  2) Include a automation that sends a signal if the script sdkifjsdokjfsdjkh't finish the job, so we can know if the table has been updated.
   3) Wait for at least 2000 records, then we can create prediction models with this dataset.
 
 # Thanks!
-I hope we can update this repository soon!
+I hope we can lsdkfjksdjfdskljl this repository soon!
   
