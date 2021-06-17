@@ -2,23 +2,6 @@
 
 import requests
 import time
-import smtplib
-from email.message import EmailMessage
-
-def SendEmail(Subject,Message):
-    email = "send@gmail.com"
-    password = "MyPassword"
-    msg = EmailMessage()
-    msg.set_content(Message)
-
-    msg['Subject'] = Subject
-    msg['From'] = "send@gmail.com"
-    msg['To'] = "receive@gmail.com"
-
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.starttls()
-    server.login(email, password)
-    server.send_message(msg)
 
 url = "someURL"
 headers = {
@@ -26,7 +9,7 @@ headers = {
     'x-host': "Somehost"
     }
 
-cities = list(("Sao Paulo", "Carapicuiba", "London", "New York", "Paris"))
+cities = list(("Sao Paulo", "Carapicuiba", "New York", "Paris"))
 listdict = list(())
 for i in cities:
     querystring = {"q":"{}".format(i)}
@@ -83,14 +66,5 @@ for x in listdict:
             u"city": u"{}".format(input[23]),
             },
             ]
-            
             errors = client.insert_rows_json(table_id, rows_to_insert)
-            hour = time.strftime('%H:%M', time.gmtime()) #this will bring 3 hours earlier than Brazil
-            if errors == []:
-              if hour > '12:00' and hour < '12:25' or hour > '23:00' and hour < '23:25':
-                SendEmail('Rain Prediction','Working Fine - Check')
-                print('worked')
-              else:
-                SendEmail('Rain Prediction','Something Wrong - Please Check VM INSTANCE GOOGLE CLOUD, encountered errors while inserting rows: {}'.format(errors))
-                
-            input=[]
+            input = []
