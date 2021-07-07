@@ -31,5 +31,5 @@ At the beggining, we don't have any information about any region climate, so we 
   3) Wait for at least 2000 records, then we can create prediction models with this dataset.
 
 # Thanks!
-I hope we can lsdkfjksdjfdskljl this repository soon!
+I hope we can update this repository soon!
   
