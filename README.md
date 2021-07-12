@@ -28,8 +28,12 @@ At the beggining, we don't have any information about any region climate, so we 
   # Next days:
   1) Include another cities, as Barueri, Carapicuiba and Sao Paulo, because their next to each other.
   2) Include a automation that sends a signal if the script doesn't finish the job, so we can know if the table has been updated.
-  3) Wait for at least 2000 records, then we can create prediction models with this dataset.
+  3) Wait for at least 50.000 records, then we can create prediction models with this dataset.
+
+# 12/07/2021
+We create a dashboard to see api working in real time and while we are filling our database I'm learning docker and luigi concepts to create our pipeline to put the algorithm in production once it's done.
+
+Dashboard link - https://datastudio.google.com/s/p268nZ5P8DM (Ps: This dash has a default date filter, it always bring the last 14 days. It can be changed by clicking on filter box)
 
 # Thanks!
 I hope we can update this repository soon!
-  
