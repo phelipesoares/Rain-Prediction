@@ -1,4 +1,4 @@
-FROM python:3.6-slim-buster
+FROM python:3
 
 WORKDIR /app
 
@@ -6,4 +6,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD exec app:Get_Data
+CMD  python3 /app/Get_Data.py
