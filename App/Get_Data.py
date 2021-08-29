@@ -80,3 +80,4 @@ for x in listdict:
             ]
             errors = client.insert_rows_json(table_id, rows_to_insert)
             input = []
+time.sleep(480)
