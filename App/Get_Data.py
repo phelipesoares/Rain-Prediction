@@ -3,7 +3,6 @@
 
 # In[134]:
 
-
 ### Take the data from API
 
 import requests
@@ -79,13 +78,5 @@ for x in listdict:
             u"extraction_date": u"{}".format(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
             },
             ]
-            print(f'rows_to_insert:{rows_to_insert}')
             errors = client.insert_rows_json(table_id, rows_to_insert)
             input = []
-
-
-# In[133]:
-
-
-errors
-
