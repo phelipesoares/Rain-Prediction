@@ -1,0 +1,1 @@
+{"x-rapidapi-key": "01eb0a46fcmsh5f5706b50869555p198703jsn9a2017158baf", "x-rapidapi-host": "weatherapi-com.p.rapidapi.com"},{"weather-project-305419.Daily_Weather.Weather-Info"},{r"C:\Users\Phelipe\Downloads\Weather Project-6fa8e059f642.json"},{"https://weatherapi-com.p.rapidapi.com/forecast.json"}

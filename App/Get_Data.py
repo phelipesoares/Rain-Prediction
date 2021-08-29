@@ -10,7 +10,7 @@ import requests
 import time
 from datetime import datetime
 
-f = open(r"C:\Users\Phelipe\Desktop\The New Beginning\project_info.txt", "r")
+f = open("project_info.txt", "r")
 info_list = eval(f.read())
 
 for x in info_list[1]:
@@ -38,9 +38,9 @@ for i in cities:
     
 from google.cloud import bigquery
 from google.oauth2 import service_account
-credentials = service_account.Credentials.from_service_account_file(path)
-project_id = credentials.project_id
-client = bigquery.Client(project=project_id, credentials=credentials)
+
+project_id = 'weather-project-305419'
+client = bigquery.Client(project=project_id)
 print(f'list:{listdict}')
 
 input = []
