@@ -50,3 +50,5 @@ def main():
                 source_file_name='Rain_Model_Object',
                 destination_blob_name='model/Rain_Model_Object')
 
+if __name__ == '__main__':
+    main()
