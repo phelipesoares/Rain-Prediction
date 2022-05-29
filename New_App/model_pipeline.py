@@ -12,15 +12,14 @@ from Functions.model_training import *
 # In[2]:
 
 def main():
-    client, project_id, credentials = gcp_credentials(path = r"C:\Users\Phelipe\Documents\GitHub\Rain-Prediction\App\Credentials\Weather Project-6fa8e059f642.json")
 
-    df = get_table(client, query_string = """
+    df = get_table(query_string = """
       SELECT *
       FROM (SELECT *
                   , ROW_NUMBER() OVER(PARTITION BY last_updated, city ORDER BY last_updated, city) AS row_num
                   FROM `weather-project-305419.Daily_Weather.Weather-Info`) as row_weather
       WHERE row_num = 1
-      """)
+      """, bq_client=bq_client)
 
     df = cities_filter(df, cidades = ['Paris', 'Sao Paulo', 'Carapicuiba', 'New York', 'Otawwa', 'London', 'Rome', 'Moscow'
               , 'Hong Kong', 'Beijing'])

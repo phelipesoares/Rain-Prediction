@@ -21,11 +21,9 @@ api = Api(app)
 class Weather_Prediction(Resource):
     def get(self):
         
-        client, project_id, credentials = gcp_credentials(path = r"C:\Users\Phelipe\Documents\GitHub\Rain-Prediction\App\Credentials\Weather Project-6fa8e059f642.json")
+        model_pipe = read_storage_files('weather-ml-bucket', 'model/Rain_Model_Object')
 
-        model_pipe = read_storage_files('weather-ml-bucket', 'model/Rain_Model_Object', project_id)
-
-        last_batch = read_storage_files('weather-ml-bucket', 'data_files/api_last_batch', project_id)
+        last_batch = read_storage_files(bucket_name='data_injection_bucket', file_path=find_last_bucket_file(bucket_name='data_injection_bucket'))
 
         df = pd.DataFrame(last_batch)
 
@@ -41,7 +39,7 @@ class Weather_Prediction(Resource):
                   , 'gust_kph', 'target']]
 
         df[['rain_prob', 'not_rain_prob']] = model_pipe.predict(df)
-        
+                
         predictions = json.dumps(df.values.tolist())
               # return our data and 200 OK HTTP code
         return {'predictions': predictions}, 200

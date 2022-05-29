@@ -6,21 +6,20 @@
 
 from Functions.GCP_Functions import *
 from Functions.weather_api import *
-from Functions.model_training import save_model
 
 # In[2]:
 
 def main():
-    table_id, url, headers = read_api_credentials(path=r"C:\Users\Phelipe\Documents\GitHub\Rain-Prediction\App\Credentials\project_info.txt")
+    table_id, url, headers = read_api_credentials(path="Credentials/project_info.txt")
     listdict = get_api_data(url, headers)
-    client, project_id, credentials = gcp_credentials(path=r"C:\Users\Phelipe\Documents\GitHub\Rain-Prediction\App\Credentials\Weather Project-6fa8e059f642.json")
-    errors = bq_send_data_f_listdict(listdict, table_id, client)
+    df = create_metadata(listdict)
+    save_api_file(df)
+    upload_blob(bucket_name="data_injection_bucket", source_file_name=f"Files/{dt_file}_weather_api.parquet", destination_blob_name=f"weather_api_files/{dt_file}_weather_api")
+    bq_send_data_f_listdict(listdict, table_id)
 
-    save_object(listdict, 'api_last_batch')
-
-    upload_blob(bucket_name='weather-ml-bucket',
-                source_file_name='api_last_batch',
-                destination_blob_name='data_files/api_last_batch')
+    #upload_blob(bucket_name='weather-ml-bucket',
+     #           source_file_name='api_last_batch',
+      #          destination_blob_name='data_files/api_last_batch')
 
 if __name__ == '__main__':
     main()

@@ -1,26 +1,30 @@
 # GCP Libraries
 
+import pandas as pd
 from google.cloud import bigquery
 from google.oauth2 import service_account
 from google.cloud import storage
 from datetime import datetime
+import os
+import pickle
 
-def gcp_credentials(path):
-    # this code should recognize if its running on cloud or localy.
-    credentials = service_account.Credentials.from_service_account_file(path)
-    project_id = credentials.project_id
-    client = bigquery.Client(project=project_id, credentials=credentials)
-    return client, project_id, credentials
+try:
+    bq_client = bigquery.Client()
+except:
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=r"C:\Users\Phelipe\Downloads\Weather Project-6fa8e059f642.json"
+    bq_client = bigquery.Client()
 
-def get_table(client, query_string):
+storage_client = storage.Client(project=bq_client.project)
+
+def get_table(bq_client: object == bq_client, query_string: str) -> pd.DataFrame:
     df = (
-        client.query(query_string)
+        bq_client.query(query_string)
         .result()
         .to_dataframe()
     )
     return df
 
-def bq_send_data_f_listdict(listdict, table_id, client):
+def bq_send_data_f_listdict(listdict, table_id, bq_client: object = bq_client):
     input = []
     for x in listdict:
         for i in x.values():
@@ -57,19 +61,24 @@ def bq_send_data_f_listdict(listdict, table_id, client):
                 u"extraction_date": u"{}".format(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
                 },
                 ]
-                errors = client.insert_rows_json(table_id, rows_to_insert)
+                errors = bq_client.insert_rows_json(table_id, rows_to_insert)
                 input = []
                 print(f'{table_id}: {errors}')
     return errors
 
-def read_storage_files(bucket_name, file_path, project_id):
-    storage_client = storage.Client(project=project_id)
+def find_last_bucket_file(bucket_name, storage_client = storage_client):
+    bucket = storage_client.get_bucket(bucket_name)
+    all_blobs = list(storage_client.list_blobs(bucket))
+    last_file_name = all_blobs[-1].name
+    return last_file_name
+
+def read_storage_files(bucket_name, file_path, storage_client=storage_client):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.get_blob(file_path)
     obj = blob.download_as_string()
     return pickle.loads(obj)
 
-def upload_blob(bucket_name, source_file_name, destination_blob_name, project_id):
+def upload_blob(bucket_name, source_file_name, destination_blob_name, storage_client=storage_client):
     """Uploads a file to the bucket."""
     # The ID of your GCS bucket
     # bucket_name = "your-bucket-name"
@@ -77,10 +86,9 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name, project_id
     # source_file_name = "local/path/to/file"
     # The ID of your GCS object
     # destination_blob_name = "storage-object-name"
-    storage_client = storage.Client(project=project_id)
+    
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
-
     blob.upload_from_filename(source_file_name)
 
     print(

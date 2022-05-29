@@ -1,5 +1,10 @@
 import requests
 import time
+from datetime import datetime
+import pandas as pd
+
+dt_metadata = datetime.now().replace(microsecond = 0)
+dt_file = str(dt_metadata).replace(" ", "_").replace(":", "_").replace("-", "_")
 
 def read_api_credentials(path):
     f = open(path, "r")
@@ -30,3 +35,11 @@ def get_api_data(url, headers):
         listdict.append(dic)
         time.sleep(1)
     return listdict
+
+def create_metadata(listdict, dt = dt_metadata):
+    df = pd.DataFrame(listdict)
+    df['ingestion_date'] = pd.to_datetime(dt)
+    return df
+
+def save_api_file(df: pd.DataFrame, dt = dt_file):
+    df.to_parquet(f"Files/{dt}_weather_api.parquet")

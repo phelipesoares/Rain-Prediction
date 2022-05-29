@@ -4,6 +4,7 @@ import numpy as np
 import time
 from datetime import date
 from datetime import datetime
+import pickle
 
 def cities_filter(df, cidades):
     df = df.loc[df['city'].isin(cidades)]
