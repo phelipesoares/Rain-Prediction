@@ -3,15 +3,13 @@
 
 # In[1]:
 
-
 from Functions.GCP_Functions import *
 from Functions.data_transformation import *
 from Functions.model_training import *
 
-
 # In[2]:
 
-def main():
+def train_pipeline(request=None):
 
     df = get_table(query_string = """
       SELECT *
@@ -19,7 +17,7 @@ def main():
                   , ROW_NUMBER() OVER(PARTITION BY last_updated, city ORDER BY last_updated, city) AS row_num
                   FROM `weather-project-305419.Daily_Weather.Weather-Info`) as row_weather
       WHERE row_num = 1
-      """, bq_client=bq_client)
+      """)
 
     df = cities_filter(df, cidades = ['Paris', 'Sao Paulo', 'Carapicuiba', 'New York', 'Otawwa', 'London', 'Rome', 'Moscow'
               , 'Hong Kong', 'Beijing'])
@@ -41,13 +39,14 @@ def main():
 
     x, y = split_x_y(df)
 
-    model_pipe, preprocessor = training_pipe(x, y)
+    model_pipe = training_pipe(x, y)
 
-    save_object(model_pipe, 'Rain_Model_Object')
+    send_file_to_gcs(bucket_name='weather-ml-bucket',
+                     obj=pickle.dumps(model_pipe),
+                     destination_blob_name=f'model/v1/{datetime.now().strftime("%Y_%m")}/Rain_Model_Object_{datetime.now().strftime("%Y_%m_%d")}')
 
-    upload_blob(bucket_name='weather-ml-bucket',
-                source_file_name='Rain_Model_Object',
-                destination_blob_name='model/Rain_Model_Object')
+    return print("Done!")
 
 if __name__ == '__main__':
-    main()
+    train_pipeline()
+# %%

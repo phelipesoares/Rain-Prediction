@@ -66,7 +66,7 @@ def training_pipe(x, y):
     #cross_score = cross_val_score(rf_pipe, x, y, cv=10, scoring='roc_auc', n_jobs=-1)
     #print(f'cross_mean: {cross_score.mean()}, cross_std: {cross_score.std()}')
     model_pipe.fit(x, y)
-    return model_pipe, preprocessor
+    return model_pipe
 
 def find_used_features(preprocessor, model_pipe, x):
     x_features = preprocessor.fit(x).get_feature_names_out()

@@ -16,7 +16,7 @@ except:
 
 storage_client = storage.Client(project=bq_client.project)
 
-def get_table(bq_client: object == bq_client, query_string: str) -> pd.DataFrame:
+def get_table(query_string: str, bq_client: object = bq_client) -> pd.DataFrame:
     df = (
         bq_client.query(query_string)
         .result()
@@ -76,7 +76,10 @@ def read_storage_files(bucket_name, file_path, storage_client=storage_client):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.get_blob(file_path)
     obj = blob.download_as_string()
-    return pickle.loads(obj)
+    if '.parquet' in file_path:
+        return pd.read_parquet(f"gs://{bucket_name}/{file_path}")
+    else:
+        return pickle.loads(obj)
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name, storage_client=storage_client):
     """Uploads a file to the bucket."""
@@ -96,3 +99,13 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name, storage_cl
             source_file_name, destination_blob_name
         )
     )
+    return True
+
+def send_file_to_gcs(bucket_name, obj, destination_blob_name, storage_client=storage_client):
+  bucket = storage_client.bucket(bucket_name)
+  blob = bucket.blob(destination_blob_name)
+  if '.parquet' in destination_blob_name:
+    blob.upload_from_string(obj.to_parquet())
+  else:
+      blob.upload_from_string(obj)
+  return print('parquet save on gcs.')
