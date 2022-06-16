@@ -1,14 +1,11 @@
 # Project Goals
-This repository has a end-to-end Data Science project, about climate predictions. It's a particular project that I'm working just myself, to improve my engineering and data analysis-science skills. The main goal is to create a app (In Cloud) that can be access by users that want to know climates predictions.
+This repository has a end-to-end Data Science project, about climate predictions. It's a particular project that I'm working just myself, to improve my engineering and data analysis-science skills. The main goal is to create a pipeline that make predictions and save those in a database near real time.
 
 # Project Description
 In resume, this project is split into this parts:
-  - Env: Compute Engine / VM Instance - Google Cloud Platform
-  - Data Source: API
-  - Automation: Python
-  - Database: BigQuery
-  - IA: Python
-  - App: TBD
+  - Env: Google Cloud Plataform
+  - Data Source: API (Rapid API)
+  - Tools: Python, Cloud Functions, Cloud Storage, BigQuery
 
 ![image](https://user-images.githubusercontent.com/69798348/115745736-1939a080-a36a-11eb-81f1-cbc88bcb3789.png)
 
